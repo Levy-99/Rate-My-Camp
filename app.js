@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
-console.log(process.env.SECRET)
+// console.log(process.env.SECRET)
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -77,7 +77,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(ignoreFavicon);
 app.use((req, res, next) => {
-    console.log(req.session.returnTo)
+    // console.log(req.session.returnTo)
     if (!['/login', '/'].includes(req.originalUrl)) {
         req.session.returnTo = req.originalUrl;
     }
