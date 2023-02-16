@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== "production") {
 // require('dotenv').config();
 // console.log(process.env.SECRET)
 
+
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
@@ -17,11 +18,13 @@ const LocalStrategy = require('passport-local');
 const helmet = require('helmet')
 const mongoSanitize = require('express-mongo-sanitize');
 
+
 const catchAsync = require('./utils/catchAsync');
 const expressError = require('./utils/expressError');
 const Campground = require('./models/campground');
 const Review = require('./models/review');
 const User = require('./models/user');
+
 
 const userRoutes = require('./routes/users')
 const campgroundRoutes = require('./routes/campgrounds');
@@ -29,9 +32,16 @@ const reviewRoutes = require('./routes/reviews');
 const { loadCss } = require('esri-loader');
 const { includes } = require('./seeds/cities');
 const { ignoreFavicon } = require('./middleware');
+const dbUrl = process.env.DB_URL;
 
+const MongoDBStore = require("connect-mongo");
+
+
+
+//dbUrl
+//'mongodb://localhost:27017/yelp-camp'
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -44,6 +54,15 @@ db.once('open', () => {
 });
 
 const app = express();
+
+app.use(session({
+    secret: 'thisshouldbeabettersecret',
+    resave: false,
+    saveUninitialized: false,
+    store: MongoDBStore.create({ mongoUrl: dbUrl }),
+    ttl:24*60*60
+}))
+
 
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
