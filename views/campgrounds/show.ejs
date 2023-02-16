@@ -3,7 +3,7 @@
 
     <div class="row">
         <div class="col-6">
-            <div id="map" style="width:400px; height:300px;"></div>
+
             <div id="campgroundCarousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <% campground.images.forEach((img, i)=> { %>
@@ -59,6 +59,7 @@
 
         </div>
         <div class="col-6">
+            <div id="map"></div>
             <% if(currentUser){ %>
                 <h2>Leave a Review</h2>
                 <form action="/campgrounds/<%=campground._id%>/reviews" method="POST" class="mb-3 validated-form"
@@ -120,7 +121,7 @@
 
     <script>
         const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
-        // Warning: 
+        // Warning:
         // autosave will break the ejs grammar!!!
         const campground = <%- JSON.stringify(campground) %>
     </script>
