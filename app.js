@@ -32,9 +32,10 @@ const reviewRoutes = require('./routes/reviews');
 const { loadCss } = require('esri-loader');
 const { includes } = require('./seeds/cities');
 const { ignoreFavicon } = require('./middleware');
-const dbUrl = process.env.DB_URL;
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
 
 const MongoDBStore = require("connect-mongo");
+const secret = process.env.SECRET || 'thisshouldbeabettersecret';
 
 
 
@@ -56,11 +57,12 @@ db.once('open', () => {
 const app = express();
 
 app.use(session({
-    secret: 'thisshouldbeabettersecret',
+    secret,
     resave: false,
     saveUninitialized: false,
     store: MongoDBStore.create({ mongoUrl: dbUrl }),
-    ttl:24*60*60
+    touchAfer:24*3500,
+//    ttl:24*60*60
 }))
 
 
@@ -75,7 +77,7 @@ app.use(mongoSanitize());
 
 
 const sessionConfig = {
-    secret: 'thisshouldbeabettersecret',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
