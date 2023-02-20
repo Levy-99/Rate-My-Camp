@@ -139,6 +139,8 @@ app.use(
                 "data:",
                 "https://res.cloudinary.com/dnjxwtqft/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
                 "https://images.unsplash.com/",
+                "https://res.cloudinary.com/dnjxwtqft/image/upload/v1676878073/YelpCamp/mwdqppgt7cv2o42ntvis.jpg"
+    
             ],
             fontSrc: ["'self'", ...fontSrcUrls],
         },
